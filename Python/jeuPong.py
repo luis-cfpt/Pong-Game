@@ -49,12 +49,19 @@ class Ball:
         self.x_vel = self.MAX_VELOCITY
         self.y_vel = 0
         
+    def speedChange(self):
+        for i in range(10):
+            self.MAX_VELOCITY += 1
+            self.x_vel = self.MAX_VELOCITY
+            time.wait(2)
+            
+        
     def draw(self, win):
         pygame.draw.circle(win, self.COLOR, (self.x, self.y), self.radius)
         
     def move(self, right_paddle, left_paddle):
         if self.x == self.original_x and self.y == self.original_y:
-            if right_paddle.y == right_paddle.original_y and left_paddle.y == left_paddle.original_y:
+            if right_paddle.y == right_paddle.original_y and left_paddle.y == left_paddle.original_y and self.y_vel == 0:
                 time.sleep(1.0)
         self.x += self.x_vel
         self.y += self.y_vel        
