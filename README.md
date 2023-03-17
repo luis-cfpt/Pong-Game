@@ -33,4 +33,4 @@ Luis DS
 
 ### 17 Mars
 
-- Commancement du jeu pong en JavaScript
+- Commencement du jeu pong en JavaScript
