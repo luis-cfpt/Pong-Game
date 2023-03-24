@@ -1,28 +1,49 @@
 // Récupération du canvas et du contexte de dessin
-var canvas = document.getElementById("jeu");
-var contexte = canvas.getContext("2d");
+let jeu = document.getElementById("jeu");
 
 // Définition des constantes du jeu
-var LARGEUR_ECRAN = 640;
-var HAUTEUR_ECRAN = 480;
-var TAILLE_BALLE = 20;
+let LARGEUR_ECRAN = 640;
+let HAUTEUR_ECRAN = 480;
+let TAILLE_BALLE = 20;
+
+window.addEventListener('keydown', function (e) {
+    if (e.key == 'w')
+    {
+        move1(e.key);
+    }
+    if (e.key == 's')
+    {
+        move1(e.key);
+    }
+});
+
+window.addEventListener('keydown', function (e) {
+    if (e.key == '  ')
+    {
+        move2(e.key);
+    }
+    if (e.key == 'ArrowDown')
+    {
+        move2(e.key);
+    }
+});
 
 // Définition des éléments du jeu
-var joueur1 = {
+let joueur1 = {
     x: 20,
     y: HAUTEUR_ECRAN / 2 - 50,
     largeur: 10,
     hauteur: 100,
-    vitesse: 5
+    vitesse: 7
 };
-var joueur2 = {
+let joueur2 = {
     x: LARGEUR_ECRAN - 30,
     y: HAUTEUR_ECRAN / 2 - 50,
     largeur: 10,
     hauteur: 100,
-    vitesse: 5
+    vitesse: 7
 };
-var balle = {
+let balle = {
     x: LARGEUR_ECRAN / 2 - TAILLE_BALLE / 2,
     y: HAUTEUR_ECRAN / 2 - TAILLE_BALLE / 2,
     largeur: TAILLE_BALLE,
@@ -31,16 +52,41 @@ var balle = {
     vitesse_y: 5 * (Math.random() < 0.5 ? 1 : -1)
 };
 
+function move1(key)
+{
+    if (key == "w" && joueur1.y > 0) 
+    {
+        joueur1.y -= joueur1.vitesse;
+        dessinerPlayer();
+    }
+    if (key == "s" && joueur1.y + joueur1.hauteur < HAUTEUR_ECRAN) 
+    {
+        joueur1.y += joueur1.vitesse;
+        dessinerPlayer();
+    }
+}
+
+function move2(key)
+{
+    if (key == "ArrowUp" && joueur2.y > 0) 
+    {
+        joueur2.y -= joueur2.vitesse;
+        dessinerPlayer();
+    }
+    if (key == "ArrowDown" && joueur2.y + joueur2.hauteur < HAUTEUR_ECRAN) 
+    {
+        joueur2.y += joueur2.vitesse
+        dessinerPlayer();
+    }
+}
+
 // Fonction pour dessiner les éléments du jeu
 function dessinerPlayer() 
 {
-    // Efface l'écran
-    contexte.clearRect(0, 0, LARGEUR_ECRAN, HAUTEUR_ECRAN);
-
-    // Dessine les joueurs et la balle
-    contexte.fillStyle = "white";
-    contexte.fillRect(joueur1.x, joueur1.y, joueur1.largeur, joueur1.hauteur);
-    contexte.fillRect(joueur2.x, joueur2.y, joueur2.largeur, joueur2.hauteur);
+    // Dessine les joueurs
+    paddles = `<div style="position: absolute; left: ${joueur1.x}px; top: ${joueur1.y}px; background-color: #fff; width: ${joueur1.largeur}px; height:${joueur1.hauteur}px;"></div><div style="position: absolute; left: ${joueur2.x}px; top: ${joueur2.y}px; background-color: #fff; width: ${joueur2.largeur}px; height:${joueur2.hauteur}px;"></div>`;
+    jeu.innerHTML = paddles;
+    
 }
 
 // Fonction pour dessiner les éléments du jeu
@@ -49,7 +95,7 @@ function dessinerBall()
     // Efface l'écran
     contexte.clearRect(0, 0, LARGEUR_ECRAN, HAUTEUR_ECRAN);
 
-    // Dessine les joueurs et la balle
+    // Dessine la balle
     contexte.fillStyle = "white";
     contexte.fillRect(balle.x, balle.y, balle.largeur, balle.hauteur);
 }
@@ -57,33 +103,45 @@ function dessinerBall()
 // Boucle principale du jeu
 function boucleJeu() 
 {
-    key = "up";
-    // console.log(key);
-    // Mouvements des joueurs
-    if (key == "up" && joueur1.y > 0) 
-    {
-        joueur1.y -= joueur1.vitesse;
-        dessinerPlayer();
-    }
-    if (key == "down" && joueur1.y + joueur1.hauteur < HAUTEUR_ECRAN) 
-    {
-        joueur1.y += joueur1.vitesse;
-        dessinerPlayer();
-    }
-    if (key == "w" && joueur2.y > 0) 
-    {
-        joueur2.y -= joueur2.vitesse;
-        dessinerPlayer();
-    }
-    if (key == "s" && joueur2.y + joueur2.hauteur < HAUTEUR_ECRAN) 
-    {
-        joueur2.y += joueur2.vitesse
-        dessinerPlayer();
-    }
+    let run = true
+    dessinerPlayer();
+
+    // while (run)
+    // {
+    //     balle.x += balle.vitesse_x
+    //     balle.y += balle.vitesse_y  
+    //     // Mouvements des joueurs
+    //     if (key == "up" && joueur1.y > 0) 
+    //     {
+    //         console.log("key = " + key);
+    //         joueur1.y -= joueur1.vitesse;
+    //         dessinerPlayer();
+    //     }
+    //     if (key == "down" && joueur1.y + joueur1.hauteur < HAUTEUR_ECRAN) 
+    //     {
+    //         joueur1.y += joueur1.vitesse;
+    //         dessinerPlayer();
+    //     }
+    //     if (key == "w" && joueur2.y > 0) 
+    //     {
+    //         joueur2.y -= joueur2.vitesse;
+    //         dessinerPlayer();
+    //     }
+    //     if (key == "s" && joueur2.y + joueur2.hauteur < HAUTEUR_ECRAN) 
+    //     {
+    //         joueur2.y += joueur2.vitesse
+    //         dessinerPlayer();
+    //     }
+    //     run = false;
+    // }
 }
 
-while (true) {   
-    dessinerBall();  
-    boucleJeu();
-    return false;
-}
+boucleJeu();
+
+// let __name__ = "__main__";
+
+// while (__name__ == '__main__') 
+// {   
+//     boucleJeu();
+//     __name__ = null;
+// }
