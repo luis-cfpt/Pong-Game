@@ -34,3 +34,11 @@ Luis DS
 ### 17 Mars
 
 - Commencement du jeu pong en JavaScript
+
+### 24 Mars
+
+- Création Maquettes site web non JS (just css et html)
+
+### 31 Mars
+
+- Avancement du css avec animation (pas fini donc pas commit)
