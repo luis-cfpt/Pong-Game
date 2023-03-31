@@ -1,0 +1,90 @@
+@font-face {
+  font-family: RobotoFlex;
+  src: url("../font/RobotoFlex[GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght].ttf"); }
+
+body {
+  font-family: RobotoFlex;
+  height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%); }
+
+section {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+
+.h1 {
+  width: 80%;
+  color: #fff;
+  font-size: calc(1.5rem + 5vw);
+  letter-spacing: 5px;
+  animation-name: change;
+  animation-duration: 2s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1%; }
+
+span {
+  transition: 1s font; }
+
+.h1::selection, .h1 span::selection {
+  background-color: transparent;
+  color: black; }
+
+.h1 span:hover {
+  color: black; }
+
+@keyframes change {
+  0% {
+    font-variation-settings: "wght" 500, "SPAC" 500; }
+  33% {
+    font-variation-settings: "wght" 422, "SPAC" 366; }
+  66% {
+    font-variation-settings: "wght" 344, "SPAC" 233; }
+  100% {
+    font-variation-settings: "wght" 266, "SPAC" 100; } }
+
+.board {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0; }
+
+.ball {
+  --ball-color: #fff;
+  --ball-width: 2em;
+  --play-duration: infinite;
+  position: absolute;
+  top: var(--top-offset);
+  left: 0;
+  width: var(--ball-width);
+  height: var(--ball-width);
+  border-radius: 50%;
+  color: var(--ball-color);
+  background: var(--ball-color);
+  box-shadow: rgba(255, 255, 255, 0.35) 0px 0px 7px;
+  animation: play var(--play-duration) var(--play-delay) linear infinite; }
+  @media screen and (max-width: 750px) {
+    .ball {
+      animation: play var(--play-duration) var(--play-delay) linear infinite; } }
+  .ball::before, .ball::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: calc(var(--ball-width) / -2);
+    width: var(--ball-width);
+    height: 100%;
+    border-radius: inherit; }
+  .ball::before {
+    transform: rotate(45deg); }
+  .ball::after {
+    transform: rotate(-45deg); }
+
+@keyframes play {
+  0% { } }
