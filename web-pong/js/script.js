@@ -1,147 +1,177 @@
-// // Récupération du canvas et du contexte de dessin
-// let jeu = document.getElementById("jeu");
+/**
+ *  @Description : Pong-Game 
+ *  @Author : Luis DS 
+ *  @Version : V1  
+ *  @Date : 05.04.2023 
+*/
 
-// // Définition des constantes du jeu
-// let LARGEUR_ECRAN = 640;
-// let HAUTEUR_ECRAN = 480;
-// let TAILLE_BALLE = 20;
+// NAVBAR
+const toggle_btn = document.querySelector('.toggle_btn');
+const toggle_btn_icon = document.querySelector('.toggle_btn i');
+const dropdown_menu = document.querySelector('.dropdown_menu');
 
-// window.addEventListener('keydown', function (e) {
-//     if (e.key == 'w')
-//     {
-//         move1(e.key);
-//     }
-//     if (e.key == 's')
-//     {
-//         move1(e.key);
-//     }
-// });
+toggle_btn.addEventListener('click', event => 
+{
+    dropdown_menu.classList.toggle('open');
+    const isOpen = dropdown_menu.classList.contains('open');
 
-// window.addEventListener('keydown', function (e) {
-//     if (e.key == '  ')
-//     {
-//         move2(e.key);
-//     }
-//     if (e.key == 'ArrowDown')
-//     {
-//         move2(e.key);
-//     }
-// });
+    toggle_btn_icon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+});
 
-// // Définition des éléments du jeu
-// let joueur1 = {
-//     x: 20,
-//     y: HAUTEUR_ECRAN / 2 - 50,
-//     largeur: 10,
-//     hauteur: 100,
-//     vitesse: 7
-// };
-// let joueur2 = {
-//     x: LARGEUR_ECRAN - 30,
-//     y: HAUTEUR_ECRAN / 2 - 50,
-//     largeur: 10,
-//     hauteur: 100,
-//     vitesse: 7
-// };
-// let balle = {
-//     x: LARGEUR_ECRAN / 2 - TAILLE_BALLE / 2,
-//     y: HAUTEUR_ECRAN / 2 - TAILLE_BALLE / 2,
-//     largeur: TAILLE_BALLE,
-//     hauteur: TAILLE_BALLE,
-//     vitesse_x: 5 * (Math.random() < 0.5 ? 1 : -1),
-//     vitesse_y: 5 * (Math.random() < 0.5 ? 1 : -1)
-// };
+// TEXTAREA
+document.querySelector('#message').addEventListener('keyup', event => textAreaAdjust(event))
 
-// function move1(key)
-// {
-//     if (key == "w" && joueur1.y > 0) 
-//     {
-//         joueur1.y -= joueur1.vitesse;
-//         dessinerPlayer();
-//     }
-//     if (key == "s" && joueur1.y + joueur1.hauteur < HAUTEUR_ECRAN) 
-//     {
-//         joueur1.y += joueur1.vitesse;
-//         dessinerPlayer();
-//     }
-// }
+function textAreaAdjust(event) 
+{
+    let element = event.target;
+    element.style.height = "1px";
+    element.style.height = (25+element.scrollHeight)+"px";
+}
 
-// function move2(key)
-// {
-//     if (key == "ArrowUp" && joueur2.y > 0) 
-//     {
-//         joueur2.y -= joueur2.vitesse;
-//         dessinerPlayer();
-//     }
-//     if (key == "ArrowDown" && joueur2.y + joueur2.hauteur < HAUTEUR_ECRAN) 
-//     {
-//         joueur2.y += joueur2.vitesse
-//         dessinerPlayer();
-//     }
-// }
+// SCROLL
+let scroll = 0;
 
-// // Fonction pour dessiner les éléments du jeu
-// function dessinerPlayer() 
-// {
-//     // Dessine les joueurs
-//     paddles = `<div style="position: absolute; left: ${joueur1.x}px; top: ${joueur1.y}px; background-color: #fff; width: ${joueur1.largeur}px; height:${joueur1.hauteur}px;"></div><div style="position: absolute; left: ${joueur2.x}px; top: ${joueur2.y}px; background-color: #fff; width: ${joueur2.largeur}px; height:${joueur2.hauteur}px;"></div>`;
-//     jeu.innerHTML = paddles;
+window.addEventListener('scroll', getScrollPos);
+
+function getScrollPos() 
+{
+    scroll = window.scrollY;
+    bcgHeader();
+}
+
+function bcgHeader() 
+{
+    if (scroll > 400)
+    {
+        document.querySelector('header').style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        document.querySelector('header').style.backdropFilter =  'blur(20px)';
+    }
+    else
+    {
+        document.querySelector('header').style.backgroundColor = 'transparent';   
+    }
+}
+
+const observer = new IntersectionObserver((entries) => 
+{
+    entries.forEach((entry) => 
+    {
+        if (entry.isIntersecting)
+        {            
+            entry.target.classList.add('show');
+        }
+        else 
+        {
+            entry.target.classList.remove('show');
+        }
+    });
+});
+
+const header = document.querySelector('header');
+const hiddenElements = document.querySelectorAll('.hidden');
+hiddenElements.forEach((element) => observer.observe(element));
+
+// FORM
+document.querySelector('form').addEventListener('submit', event => traiterForm(event));
+
+function traiterForm(event) 
+{
+    event.preventDefault();
+
+    const data = new FormData(event.target);
+
+    const btn = event.submitter;
     
-// }
+    if (btn.value == 'send') 
+    {
+        console.log(data)
+        let message = document.querySelector('.message-confirm')
+        if (data.get('email') == null && data.get('title') != null && data.get('message') != null)
+        {
+            message.innerHTML = '• rechack the email •';
+            message.style.color = 'red';
+            return false;            
+        }
+        else if (data.get('title') == null && data.get('email') != null && data.get('message') != null)
+        {
+            message.innerHTML = '• rechack the title •';
+            message.style.color = 'red';
+            return false;
+        }
+        else if (data.get('message') == null && data.get('title') != null && data.get('email') != null)
+        {
+            message.innerHTML = '• rechack the message •';
+            message.style.color = 'red';
+            return false;
+        }
+        else if (data.get('email') == null && data.get('title') == null && data.get('message') != null) 
+        {
+            message.innerHTML = '• rechack the email and the title •';
+            message.style.color = 'red';
+            return false; 
+        }
+        else if (data.get('email') == null && data.get('title') == null && data.get('message') == null) 
+        {
+            message.innerHTML = '• rechack all content •';
+            message.style.color = 'red';
+            return false; 
+        }
+        else if (data.get('email') == null && data.get('title') != null && data.get('message') == null) 
+        {
+            message.innerHTML = '• rechack the email and the message •';
+            message.style.color = 'red';
+            return false; 
+        }
+        else if (data.get('email') != null && data.get('title') == null && data.get('message') == null) 
+        {
+            message.innerHTML = '• rechack the title and the message •';
+            message.style.color = 'red';
+            return false; 
+        }
+        else
+        {
+            message.innerHTML = '• your message has been send •';
+            message.style.color = 'green';
+            sendMessage(data);
+        }
+    }
+}
 
-// // Fonction pour dessiner les éléments du jeu
-// function dessinerBall() 
-// {
-//     // Efface l'écran
-//     contexte.clearRect(0, 0, LARGEUR_ECRAN, HAUTEUR_ECRAN);
+const messages = [];
 
-//     // Dessine la balle
-//     contexte.fillStyle = "white";
-//     contexte.fillRect(balle.x, balle.y, balle.largeur, balle.hauteur);
-// }
+function sendMessage(data)
+{
+    const message = new Map();
 
-// // Boucle principale du jeu
-// function boucleJeu() 
-// {
-//     let run = true
-//     dessinerPlayer();
+    message.set('email', data.get('email'));
+    message.set('title', data.get('title'));
+    message.set('message', data.get('message'));
 
-//     // while (run)
-//     // {
-//     //     balle.x += balle.vitesse_x
-//     //     balle.y += balle.vitesse_y  
-//     //     // Mouvements des joueurs
-//     //     if (key == "up" && joueur1.y > 0) 
-//     //     {
-//     //         console.log("key = " + key);
-//     //         joueur1.y -= joueur1.vitesse;
-//     //         dessinerPlayer();
-//     //     }
-//     //     if (key == "down" && joueur1.y + joueur1.hauteur < HAUTEUR_ECRAN) 
-//     //     {
-//     //         joueur1.y += joueur1.vitesse;
-//     //         dessinerPlayer();
-//     //     }
-//     //     if (key == "w" && joueur2.y > 0) 
-//     //     {
-//     //         joueur2.y -= joueur2.vitesse;
-//     //         dessinerPlayer();
-//     //     }
-//     //     if (key == "s" && joueur2.y + joueur2.hauteur < HAUTEUR_ECRAN) 
-//     //     {
-//     //         joueur2.y += joueur2.vitesse
-//     //         dessinerPlayer();
-//     //     }
-//     //     run = false;
-//     // }
-// }
+    messages.push(message)
 
-// boucleJeu();
+    let jsonMessage = JSON.stringify(messages);
 
-// // let __name__ = "__main__";
+    localStorage.setItem('messages', jsonMessage)
 
-// // while (__name__ == '__main__') 
-// // {   
-// //     boucleJeu();
-// //     __name__ = null;
-// // }
+    console.log(message);        
+}
+
+// about
+let text = document.querySelector('.next-text');
+let display = 'none'
+
+text.style.display = 'block';
+
+document.querySelector('.points').addEventListener('click', (event) => {
+
+    if (display == 'none')
+    {
+        text.style.display = 'block';
+        display = 'block';
+    }
+    else if (display == 'block')
+    {
+        text.style.display = 'none';   
+        display = 'none';
+    }
+});
