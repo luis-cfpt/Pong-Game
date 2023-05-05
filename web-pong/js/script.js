@@ -2,7 +2,7 @@
  *  @Description : Pong-Game 
  *  @Author : Luis DS 
  *  @Version : V1  
- *  @Date : 05.04.2023 
+ *  @Date : 05.05.2023 
 */
 
 // NAVBAR
@@ -10,6 +10,9 @@ const toggle_btn = document.querySelector('.toggle_btn');
 const toggle_btn_icon = document.querySelector('.toggle_btn i');
 const dropdown_menu = document.querySelector('.dropdown_menu');
 
+/**
+ * Event on click to dropdown menu
+ */
 toggle_btn.addEventListener('click', event => 
 {
     dropdown_menu.classList.toggle('open');
@@ -30,6 +33,10 @@ toggle_btn.addEventListener('click', event =>
 // TEXTAREA
 document.querySelector('#message').addEventListener('keyup', event => textAreaAdjust(event))
 
+/**
+ * Ajust the heigt of the textarea 
+ * @param {Event} event 
+ */
 function textAreaAdjust(event) 
 {
     let element = event.target;
@@ -42,12 +49,18 @@ let scroll = 0;
 
 window.addEventListener('scroll', getScrollPos);
 
+/**
+ * Get scroll bar position
+ */
 function getScrollPos() 
 {
     scroll = window.scrollY;
     bcgHeader();
 }
 
+/**
+ * Modify de background color of the Header
+ */
 function bcgHeader() 
 {
     if (scroll > 400)
@@ -61,6 +74,9 @@ function bcgHeader()
     }
 }
 
+/**
+ * Observe the modification of the display
+ */
 const observer = new IntersectionObserver((entries) => 
 {
     entries.forEach((entry) => 
@@ -97,6 +113,11 @@ hiddenElements.forEach((element) => observer.observe(element));
 // FORM
 document.querySelector('form').addEventListener('submit', event => traiterForm(event));
 
+/**
+ * Get data of the form element
+ * @param {Event} event 
+ * @returns {Boolean}
+ */
 function traiterForm(event) 
 {
     event.preventDefault();
@@ -162,6 +183,10 @@ function traiterForm(event)
 
 const messages = [];
 
+/**
+ * Save the message on the local storage
+ * @param {FormData} data 
+ */
 function sendMessage(data)
 {
     const message = new Map();

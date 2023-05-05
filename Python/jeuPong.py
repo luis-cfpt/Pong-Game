@@ -6,6 +6,7 @@ pygame.init()
 #Constantes
 
 WIDTH, HEIGHT = 700, 500
+
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Pong')
 
@@ -18,7 +19,10 @@ LIGHT_GRAY = (180, 180, 180)
 PADDLE_WIDTH, PADDLE_HEIGHT = 10, 75
 BALL_RADIUS = 7
 
+TITLE_FONT = pygame.font.SysFont("trebuchet", 50)
+MENU_FONT = pygame.font.SysFont("trebuchet", 35)
 SCORE_FONT = pygame.font.SysFont("trebuchet", 50)
+
 
 # Classe pour le paddle
 class Paddle:
@@ -85,9 +89,50 @@ class Ball:
         left_paddle.y = left_paddle.original_y
         self.y_vel = 0
         self.x_vel *= -1
+
+# Create buttons for menu
+class Button():    
+    def __init__(self, x, y , image):
+        self.image = image
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (x, y)
         
+    def draw(self):
+        WIN.blit(self.image (self.rect.x, self.rect.y))
+        
+
+# Fonction déssiner le menu
+def drawMenu(win):
+    win.fill(BLACK)  
+    pygame.draw.rect(win, BLACK, ( WIDTH//4, HEIGHT//4, WIDTH//2, HEIGHT//2))
+    
+    title = TITLE_FONT.render("PONG-GAME", 1, WHITE)
+    win.blit(title, (WIDTH//2 - title.get_width()//2, 40))
+
+    menu = MENU_FONT.render("MENU", 1, LIGHT_GRAY)   
+    win.blit(menu, (WIDTH//2 - menu.get_width()//2, 80))
+    
+    rules = MENU_FONT.render("MENU", 1, LIGHT_GRAY)   
+    rules_img = pygame.image.load('button.svg').convert_alpha()
+    rules_btn = Button(100, 200, rules_img)
+    win.blit(rules_btn, (WIDTH//2 - rules_btn.rect.width//2, 200))
+    win.blit(rules, (WIDTH//2 - rules.get_width()//2, 250))
+    
+    controls = MENU_FONT.render("MENU", 1, LIGHT_GRAY)   
+    controls_img = pygame.image.load('button.svg').convert_alpha()
+    controls_btn = Button(100, 200, controls_img)
+    win.blit(controls_btn, (WIDTH//2 - controls_btn.rect.width//2, 500))
+    win.blit(controls, (WIDTH//2 - controls.get_width()//2, 550))
+    
+    name_player = MENU_FONT.render("MENU", 1, LIGHT_GRAY)   
+    
+    history = MENU_FONT.render("MENU", 1, LIGHT_GRAY)   
+    
+    pygame.display.update()
+    
+   
 # Fonction déssiner les deux paddle et la ball
-def draw(win, paddles, ball, left_score, right_score):
+def drawGame(win, paddles, ball, left_score, right_score):
     win.fill(BLACK)
     
     left_score_text = SCORE_FONT.render(f"{left_score}", 1, WHITE)
@@ -161,26 +206,33 @@ def main():
     right_score = 0
     
     while run:
-        clock.tick(FPS)
-        draw(WIN, [left_paddle, right_paddle], ball, left_score ,right_score)
-         
+        drawMenu(WIN)
+        time.sleep(3)
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-                break
         
-        keys = pygame.key.get_pressed()
-        handle_paddle_movemement(keys, left_paddle, right_paddle)  
+        # clock.tick(FPS)
+        # drawGame(WIN, [left_paddle, right_paddle], ball, left_score ,right_score)
+         
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         run = False
+        #         break
         
-        ball.move(right_paddle, left_paddle)  
-        handle_collision(ball, left_paddle, right_paddle)
+        # keys = pygame.key.get_pressed()
+        # handle_paddle_movemement(keys, left_paddle, right_paddle)  
         
-        if ball.x < 0:
-            right_score += 1
-            ball.reset(right_paddle ,left_paddle)
-        elif ball.x > WIDTH:
-            left_score += 1
-            ball.reset(right_paddle ,left_paddle)
+        # ball.move(right_paddle, left_paddle)  
+        # handle_collision(ball, left_paddle, right_paddle)
+        
+        # if ball.x < 0:
+        #     right_score += 1
+        #     ball.reset(right_paddle ,left_paddle)
+        # elif ball.x > WIDTH:
+        #     left_score += 1
+        #     ball.reset(right_paddle ,left_paddle)
         
     pygame.quit()
 
