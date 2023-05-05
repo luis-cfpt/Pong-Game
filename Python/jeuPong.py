@@ -3,6 +3,8 @@ import time
 
 pygame.init()
 
+#Constantes
+
 WIDTH, HEIGHT = 700, 500
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Pong')
@@ -18,30 +20,38 @@ BALL_RADIUS = 7
 
 SCORE_FONT = pygame.font.SysFont("trebuchet", 50)
 
+# Classe pour le paddle
 class Paddle:
+    # Constante de la classe
     COLOR = WHITE
     VELOCITY = 5
     
+    # Constructeur de la classe
     def __init__(self, x, y, width, height):
         self.x = x
         self.y = self.original_y = y
         self.width = width
         self.height = height
         
+    # Méthode pour déssiner le paddle
     def draw(self, win):
         pygame.draw.rect(win, self.COLOR, (self.x, self.y, self.width, self.height))
         
+    # Méthode pour bouger le paddle
     def move(self, up=True):
         if up:
             self.y -= self.VELOCITY
         else:
             self.y += self.VELOCITY
-
+            
+# Classe pour la ball
 class Ball:
+    # Constante de la classe
     MIN_VELOCITY = 5
     MAX_VELOCITY = 7
     COLOR = WHITE
     
+    # Constructeur de la classe
     def __init__(self, x, y, radius):
         self.x = self.original_x = x
         self.y = self.original_y = y
@@ -49,16 +59,18 @@ class Ball:
         self.x_vel = self.MAX_VELOCITY
         self.y_vel = 0
         
+    # Méthode augmentant la vitesse de déplacement
     def speedChange(self):
         for i in range(10):
             self.MAX_VELOCITY += 1
             self.x_vel = self.MAX_VELOCITY
             time.wait(2)
             
-        
+    # Méthode pour déssiner la ball
     def draw(self, win):
         pygame.draw.circle(win, self.COLOR, (self.x, self.y), self.radius)
         
+    # Méthode pour bouger la ball    
     def move(self, right_paddle, left_paddle):
         if self.x == self.original_x and self.y == self.original_y:
             if right_paddle.y == right_paddle.original_y and left_paddle.y == left_paddle.original_y and self.y_vel == 0:
@@ -74,7 +86,7 @@ class Ball:
         self.y_vel = 0
         self.x_vel *= -1
         
-
+# Fonction déssiner les deux paddle et la ball
 def draw(win, paddles, ball, left_score, right_score):
     win.fill(BLACK)
     
@@ -94,6 +106,7 @@ def draw(win, paddles, ball, left_score, right_score):
     ball.draw(win)    
     pygame.display.update()
 
+# Fonction pour bouger son paddle
 def handle_paddle_movemement(keys, left_paddle, right_paddle):
     if keys[pygame.K_w] and left_paddle.y - left_paddle.VELOCITY >= 0.5:
         left_paddle.move(up=True)
@@ -105,6 +118,7 @@ def handle_paddle_movemement(keys, left_paddle, right_paddle):
     if keys[pygame.K_DOWN] and right_paddle.y + right_paddle.VELOCITY + right_paddle.height <= HEIGHT - 0.5:
         right_paddle.move(up=False)    
 
+# Fonction pour créer les collisions de la ball
 def handle_collision(ball, left_paddle, right_paddle):
     if ball.y + ball.radius >= HEIGHT:
         ball.y_vel *= -1
@@ -134,6 +148,7 @@ def handle_collision(ball, left_paddle, right_paddle):
                 y_vel = difference_in_y / reduction_factor
                 ball.y_vel = -1 * y_vel
 
+# Fonction principal du jeu
 def main():
     run = True
     clock = pygame.time.Clock()
@@ -168,6 +183,7 @@ def main():
             ball.reset(right_paddle ,left_paddle)
         
     pygame.quit()
-    
+
+# Lance le jeu en continu   
 if __name__ == '__main__':
     main()

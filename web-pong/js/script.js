@@ -16,6 +16,15 @@ toggle_btn.addEventListener('click', event =>
     const isOpen = dropdown_menu.classList.contains('open');
 
     toggle_btn_icon.classList = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+
+    if (dropdown_menu.classList.contains('open')) 
+    {
+        document.querySelector('#home').style.marginTop = '-240px';        
+    }
+    else 
+    {
+        document.querySelector('#home').style.marginTop = '0px';        
+    }
 });
 
 // TEXTAREA
@@ -58,17 +67,31 @@ const observer = new IntersectionObserver((entries) =>
     {
         if (entry.isIntersecting)
         {            
-            entry.target.classList.add('show');
+            if (entry.target.classList.contains('form')) 
+            {
+                entry.target.classList.add('show-form');    
+            }
+            else 
+            {
+                entry.target.classList.add('show');
+            }
         }
         else 
         {
-            entry.target.classList.remove('show');
+            if (entry.target.classList.contains('form')) 
+            {
+                entry.target.classList.remove('show-form');    
+            }
+            else 
+            {
+                entry.target.classList.remove('show');
+            }
         }
     });
 });
 
 const header = document.querySelector('header');
-const hiddenElements = document.querySelectorAll('.hidden');
+const hiddenElements = document.querySelectorAll('.hidden, .hidden-form');
 hiddenElements.forEach((element) => observer.observe(element));
 
 // FORM
