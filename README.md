@@ -49,8 +49,8 @@ Luis DS
 
 ### 5 Mai 
 
+- Fin du web / python
+
+### 12 Mai 
+
 - Fin du prejet
-
-### 12 mai
-
-- Amélioration du jeu en Python en vue du temp restant
