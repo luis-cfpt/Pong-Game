@@ -20,11 +20,13 @@
 
 * {
   z-index: 0;
+  cursor: none;
 }
 
 body {
   font-family: RobotoFlex;
   background: radial-gradient(ellipse at center, #0d1d31 0%, #0c0d13 100%);
+  overflow-x: hidden;
 }
 
 section {
@@ -114,7 +116,6 @@ section {
   animation-duration: 2s;
   animation-direction: alternate;
   animation-iteration-count: infinite;
-  cursor: default;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,7 +213,6 @@ header {
 .navbar .toggle_btn {
   width: 1.5rem;
   font-size: 1.5rem;
-  cursor: pointer;
   color: var(--main-color);
   display: none;
 }
@@ -226,8 +226,11 @@ header {
   border-radius: 20px;
   font-size: 0.8rem;
   font-weight: bold;
-  cursor: pointer;
   transition: scale 0.2s ease;
+}
+
+.setup_btn {
+  max-width: 65px;
 }
 
 .action_btn:hover {
@@ -298,6 +301,7 @@ a {
   color: var(--main-color);
   font-size: 1rem;
   transition: color 0.3s;
+  cursor: none;
 }
 
 a:hover {
@@ -445,7 +449,7 @@ form input, form textarea {
 
   .points {
     display: block;
-    cursor: pointer;
+    
   }
 }
 
@@ -475,4 +479,39 @@ form input, form textarea {
   opacity: 1;
   filter: blur(0);
   transform: translateY(0);
+}
+
+#cursor {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--second-color-opacity);
+  position: absolute;
+  transition: scale 100ms;
+  z-index: 3;
+}
+
+.click-cursor {
+  scale: 1.5;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #0C0F18; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--second-color);
+  border-radius: 10px;
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--second-color-opacity); 
 }

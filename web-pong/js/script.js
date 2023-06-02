@@ -70,6 +70,7 @@ function bcgHeader()
     }
     else
     {
+        document.querySelector('header').style.zIndex = 1;
         document.querySelector('header').style.backgroundColor = 'transparent';   
     }
 }
@@ -222,4 +223,17 @@ document.querySelector('.points').addEventListener('click', (event) => {
         text.style.display = 'none';   
         display = 'none';
     }
+});
+
+
+// cursor 
+const cursor = document.querySelector('#cursor');
+
+document.addEventListener('mousemove', event => {
+    cursor.setAttribute('style', `top:${event.pageY + 0.5}px; left:${event.pageX + 0.5}px;`);
+}); 
+
+document.addEventListener('click', (event) => {
+    cursor.classList.add('click-cursor');
+    setTimeout(() => cursor.classList.remove('click-cursor'), 100);
 });
