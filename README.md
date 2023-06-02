@@ -54,3 +54,7 @@ Luis DS
 ### 12 Mai 
 
 - Fin du prejet
+
+### 2 Juin
+
+- Fin définitif de tout le projet
