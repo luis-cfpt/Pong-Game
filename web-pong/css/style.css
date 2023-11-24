@@ -18,6 +18,10 @@
   --third-color: #bbbbbb;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 * {
   z-index: 0;
   cursor: none;
